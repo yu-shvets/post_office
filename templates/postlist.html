@@ -1,0 +1,9 @@
+{% for post in posts %}
+
+    <p>Author: <a href="{% url "userlist" post.user.id %}">{{ post.user }}</a> | {{ post.datetime }}</p>
+    <p>Title: {{ post.title }}</p>
+    <p>{{ post.post }}</p>
+    <hr>
+
+{% endfor %}
+

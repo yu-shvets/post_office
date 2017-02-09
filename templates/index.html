@@ -1,0 +1,43 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>POST OFFICE - {% block meta_title %}{% endblock meta_title %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href={{ PORTAL_URL }}{% static "main.css" %}>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <h4 class="navbar-text">POST OFFICE</h4>
+            <ul class="nav navbar-nav">
+                <li><a href="{% url "newpost" %}">New post</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url "profile" %}">{{ user.email }}</a></li>
+                    <li><a href="{% url "accounts:auth_logout" %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url "accounts:auth_login" %}">Login</a></li>
+                    <li><a href="{% url "accounts:registration_register" %}">Register</a></li>
+                {% endif %}
+            </ul>
+            </ul>
+        </nav>
+
+{% block content %}
+
+{% include "search_form.html" %}
+
+{% include "postlist.html" %}
+
+{% include "pagination.html" %}
+
+{% endblock content %}
+
+
+    </div>
+</body>
+</html>

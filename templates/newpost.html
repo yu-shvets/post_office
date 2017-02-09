@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+
+{% block meta_title %}New post{% endblock meta_title %}
+
+<div style="margin-bottom: 20px">
+    <form method="get" action={% url "search" %}>
+
+      <input type="search" name="query" />
+      <input type="Submit" value="Search" />
+      <span>{{ request.GET.search_message }}</span>
+    </form>
+</div>
+
+{% block content %}
+
+    <div style="margin-bottom: 20px">
+        <form method="post" action="{% url 'newpost' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+          <input type="submit" value="Submit" class="btn"/>
+        </form>
+    </div>
+
+{% include "search_form.html" %}
+
+{% include "postlist.html" %}
+
+{% endblock content %}
+
