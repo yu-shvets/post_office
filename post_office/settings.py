@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cuser',
     'registration',
+    'rest_framework',
+    'rest_framework.authtoken',
     'posts',
 ]
 
@@ -130,3 +132,12 @@ STATIC_URL = '/static/'
 REGISTRATION_OPEN = True
 
 AUTH_USER_MODEL = 'cuser.CUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

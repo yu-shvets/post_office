@@ -32,16 +32,18 @@ urlpatterns = [
         name='registration_complete'),
     url(r'^accounts/', include('registration.backends.simple.urls',
         namespace='accounts')),
-    url(r'^users/profile/$', login_required(TemplateView.as_view(
+    url(r'^accounts/profile/$', login_required(TemplateView.as_view(
         template_name='registration/profile.html')), name='profile'),
 
     url(r'^$', index, name='home'),
 
     url(r'^newpost/$', login_required(newpost), name='newpost'),
 
-    url(r'^users/(?P<user_id>\d+)/$', userlist, name='userlist'),
+    url(r'^accounts/(?P<user_id>\d+)/$', userlist, name='userlist'),
 
     url(r'^search_result/$', search, name='search'),
+
+    url(r'^', include('posts.urls')),
 
     url(r'^admin/', admin.site.urls),
 ]

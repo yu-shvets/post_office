@@ -5,8 +5,11 @@ from .models import Posts
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-# Create your views here.
 
+from .serializers import PostSerializer
+from rest_framework import generics
+from rest_framework import permissions
+from .permissions import IsOwnerOrReadOnly
 
 # Getting custom User
 User = get_user_model()
@@ -63,6 +66,7 @@ def userlist(request, user_id):
 
     return render(request, 'userlist.html', {'posts': posts})
 
+
 # View for search
 def search(request):
 
@@ -74,3 +78,19 @@ def search(request):
 
     else:
         return HttpResponseRedirect('%s?search_message=Please, submit a search term' % reverse('home'))
+
+
+# REST API
+class PostList(generics.ListCreateAPIView):
+    queryset = Posts.objects.all()
+    serializer_class = PostSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Posts.objects.all()
+    serializer_class = PostSerializer
+    #permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
